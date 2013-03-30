@@ -35,7 +35,7 @@ class AmericanPanters(HtmlPage):
     def getData(self):
         href = 'https://www.google.com/search?q=%s'
         painters=[['Andy Warhol', 'Pop', 1928, 1987], 
-                  ['Elsworth Kelly', 'Minimal',1933, 'Living in Newburgh, NY'],
+                  ['Elsworth Kelly', 'Minimal',1933, 'Living Spencertown, NY'],
                   ['Jackon Pollock', 'Abstract Expressionist', 1912, 1956],
                   ['Sol LeWitt', 'Conceptualist', 1928, 2007],
                   ['Robert Motherwell', 'Abstract Expressionist', 1915, 1991],

@@ -49,3 +49,5 @@ It is Python CGI, but can be used with Cherrypy.  It is not MVC.
                    </tbody>
                  </table>
 
+
+* examples(n).py - Examples of how to use the code.

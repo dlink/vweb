@@ -36,7 +36,11 @@ def htmlTag(tag, s, attrs):
         for k, v in attrs.items():
             # control newlines
             if k == 'newline':
-                nl = '\n' if v else ''
+                #nl = '\n' if v else ''
+                if v:
+                    nl = '\n'
+                else:
+                    nl = ''
                 continue
             list.append('%s="%s"' % (k.rstrip('_').replace('_', '-'), v))
         return "<%s %s>%s</%s>%s" % (tag, ' '.join(list), s, tag, nl)

@@ -15,7 +15,7 @@ class HtmlTable (object):
 
        table = HtmlTable
     '''
-    def __init__ (self, class_=None, id=None, border=1, cellspacing=0, 
+    def __init__ (self, class_=None, id=None, border=0, cellspacing=0, 
                   cellpadding=0, width=0, start_indent=START_INDENT,
                   indentation_inc=INDENTATION_INC, blank_cell='&nbsp;',
                   cell_error_value=None):
@@ -46,6 +46,7 @@ class HtmlTable (object):
         self.col_valign    = {}
         self.col_start_tag = {}
         self.col_end_tag   = {}
+        self.col_width     = {}
         
         self.cell_colspan  = {}
         self.cell_rowspan  = {}
@@ -101,6 +102,10 @@ class HtmlTable (object):
         c = col-1
         self.col_start_tag[c] = start_tag
         self.col_end_tag[c]   = end_tag
+
+    def setColWidth(self, col, width):
+        c = col-1
+        self.col_width[c] = width
     
     def setCellColSpan(self, row, col, colspan):
         r = row-1
@@ -152,6 +157,8 @@ class HtmlTable (object):
             attrs.append('id="%s"' % self.id)
         if self.width:
             attrs.append('width="%s"' % self.width)
+        if self.border:
+            attrs.append('border="%s"' % self.border)
         for k, v in self.attrs.items():
             attrs.append('%s="%s"' % (k, v))
         
@@ -209,6 +216,8 @@ class HtmlTable (object):
                     elements += ' align="%s"' % self.col_align[col]
                 if self.col_valign.has_key(col):
                     elements += ' valign="%s"' % self.col_valign[col]
+                if self.col_width.has_key(col):
+                    elements += ' width="%s"' % self.col_width[col]
 
                 ## td/th 
                 if row in self.header_rows or row in self.footer_rows: 

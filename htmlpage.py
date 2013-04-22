@@ -40,7 +40,8 @@ class HtmlPage(object):
         self.form_action  = ''
         self.body_attributes = ''
         self.auto_refresh = 0 # For refreshing every n seconds.
-
+        self.output_format = 'html'
+        
     def process(self):
         '''CGI Process step.'''
         
@@ -48,6 +49,8 @@ class HtmlPage(object):
             self.debug_msg += '<b>cgi form values:</b> <br/>'
             for p in self.form:
                 self.debug_msg += "%s: %s<br/>" % (p, self.form[p].value)
+        if 'csv' in self.form:
+            self.output_format = 'csv'
             
     def getHtml(self):
         '''Return entire Html Page, NOT including HTTP Header.
@@ -55,8 +58,6 @@ class HtmlPage(object):
         '''
         
         html = self.getHtmlHeader()
-        
-        self.process()                   # can set debug_msg
         report_body = self.getHtmlContent() # can set debug_msg
 
         html += self.debug_msg
@@ -64,9 +65,18 @@ class HtmlPage(object):
         html += self.getHtmlFooter()
         return html
 
+    def getCsv(self):
+        self.process()
+        return 'Empty Body'
+    
     def getHttpHeader(self):
-        return 'Content-Type: text/html\n'
-
+        if self.output_format == 'csv':
+            return 'Content-Type: application/csv\n' + \
+                   'Content-Disposition: attachment; filename=%s.csv\n' \
+                   % self.__class__.__name__
+        else:
+            return 'Content-Type: text/html\n'
+        
     def getHtmlHeader(self):
         dtd_tag     = '<!DOCTYPE html PUBLIC ' \
                       '"-//W3C//DTD XHTML 1.0 Strict//EN" ' \
@@ -178,10 +188,19 @@ class HtmlPage(object):
         return output
 
 
+    def getCsvButton(self):
+        from html import input
+        return input(name='csv', type='hidden') + \
+               input(name='csv_button', value='Download CSV', type='button',
+                     onClick='document.form1.csv.value=1; submit();')
+    
     def go(self):
+        self.process()
         print self.getHttpHeader()
-        #print safecgi.run(self.getHtml)
-        print self.getHtml()
+        if self.output_format == 'csv':
+            print self.getCsv()
+        else:
+            print self.getHtml()
 
 if __name__ == '__main__':
     page = HtmlPage('Untitled')

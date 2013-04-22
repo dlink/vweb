@@ -49,7 +49,7 @@ class HtmlPage(object):
             self.debug_msg += '<b>cgi form values:</b> <br/>'
             for p in self.form:
                 self.debug_msg += "%s: %s<br/>" % (p, self.form[p].value)
-        if 'csv' in self.form:
+        if 'csv' in self.form and self.form['csv'].value == "1":
             self.output_format = 'csv'
             
     def getHtml(self):
@@ -189,11 +189,17 @@ class HtmlPage(object):
 
 
     def getCsvButton(self):
-        from html import input
-        return input(name='csv', type='hidden') + \
+        '''Return a 'Download CSV' button that can be used on the page
+           Uses a hidden field called 'csv'
+           Uses javascript to reset the value of that field.
+        '''
+        from html import input, script
+        reset_js = 'function(){document.form1.csv.value=0}'
+        return script('setInterval(%s,''500)') % reset_js + \
+               input(name='csv', type='hidden', value='0') + \
                input(name='csv_button', value='Download CSV', type='button',
                      onClick='document.form1.csv.value=1; submit();')
-    
+
     def go(self):
         self.process()
         print self.getHttpHeader()

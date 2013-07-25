@@ -17,6 +17,10 @@
 #   Python keyword conflicts:
 #       Use a trailing underscore: eq. p('text', class_='special')
 #
+#   Use of hyphens (-) in attribute names, not allowed in python:
+#       Use understore (_): eq. div(p('text'), data_timestamp='2013-07-25')
+#       produces: <div data-timestamp="2013-07-25"><p>text</p>\n</div>
+#
 #   Use htmltable.py for HTML table tags.
 
 # Constants:

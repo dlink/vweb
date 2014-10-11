@@ -1,53 +1,123 @@
-vweb is a simple Python Website Frame work.
+**Vweb** is a Simple Python Website Frame work.
 
-It is Python CGI, but can be used with Cherrypy.  It is not MVC.
+It has been created over a time to address reoccuring requirements for building simple websites.  It is Python CGI, but can be used with Cherrypy.  It is not MVC.  It consists of the following modules:
 
-* htmlpage - Is a website page which processes cgi parameters.
+### Modules
 
-             You subclass it and override 
+* **HtmlPage** - Super class that controlls the processing and display of webpages
 
-             - process() for handling incoming parameters, and
-             - getHtmlContent() to display the page.
+* **html**     - HTML Abstraction layer for generating HTML
 
-* html     - Is an html abstraction layer
+* **HtmlTable** - HTML Table Abstraction layer for generating HTML Tables
 
-                b('hi')
-                p(font('some text', color='green'))
-                a('Chapter 2', href='chapter2.html')
+* **htmlify** - Some utilities
 
-             Returns these string:
+* **examples**  - Examples
 
-                <b>hi</b>
-                <p><font color='red'>text</font></p>
-                <a href='chapter2.html'>Chapter 2</a>
+### Details
 
-* htmltable - Is an html table abstraction layer
-              Inspired by perl's HTML:Table
+##### HtmlPage
 
-                 from htmltable import HtmlTable
+HtmlPage is a Web Page that your code subclasses.  It consists primarily of
 
-                 table = HtmlTable()
-                 table.addHeader(['No.', 'President'])
-                 table.addRow([1, 'George Washington']) 
-                 table.setColAlign(2, 'right')
-                 print table.getTable()
+* A Constructor **__init__()** which you override, which allows you to dynamically build the HTML HEADER with Title, Javascript, CSS, auto_refesh, output_format (html, csv)
 
-              Returns:
+* A **process()** method which you overide for handling incoming GET and POST parameters.
 
-                 <table cellpadding="0" cellspacing="0">
-                   <thead>
-                     <tr>
-                       <th>No.</th>
-                       <th align="right">President</th>
-                     </tr>
-                   </thead>
-                   <tbody>
-                     <tr>
-                       <td>1</td>
-                       <td align="right">George Washington</td>
-                     </tr>
-                   </tbody>
-                 </table>
+* A **getHtmlContent()** method which you overrid for generating HTML BODY
+
+* Debugging GET and POST Variables, as well as user defined DEBUG message.
+
+Here is Hello World:
+
+    from htmlpage import HtmlPage
+    class HelloWorld(HtmlPage):
+        def __init__(self):
+            HtmlPage.__init__(self, "Hello World")
+        def getHtmlContent(self):
+            return '<p>Hello, World!</p>'
+    if __name__ == '__main__':
+        HelloWorld().go()
+
+See Other [Examples](https://github.com/dlink/vweb/tree/master/examples)
+
+__html__
+
+**html** is a libary module of simple one-to-one python equivalent names for each HTML tag.  It is used to generate html in python, rather than using templates like Genshi, or PHP.
+
+The following examples ...
+
+    b('hi')
+    p(font('some text', color='green'))
+    a('Chapter 2', href='chapter2.html')
+    div(center(column_chooser), id='columnChooser', class_='widget')
+    
+Returns these string:
+
+    <b>hi</b>
+    <p><font color='red'>text</font></p>
+    <a href='chapter2.html'>Chapter 2</a>
+    <div id="columnChooser" class="widget">
+       <center>
+          < … > 
+       </center>
+    </div>
+
+__HtmlTable__
+
+**HtmlTable** is an Abstraction layer for HTML TABLES, (and it rocks the house). It was inspired by perl's HTML:Table.  
+
+By treating tables as Python objects similar to a list of lists, uses can work more freely and creatively, leaving the output of the HTML TABLE to the getTable() method.
+
+This example …
+
+    from htmltable import HtmlTable
+    
+    # Create table - Many parameter options exist.
+    table = HtmlTable()
+    
+    # Header
+    table.addHeader(['No.', 'President'])
+    
+    # Table Body
+    table.addRow([1, 'George Washington']) 
+    table.addRow([2, 'John Adams']) 
+    
+    # Format adjustments
+    table.setColAlign(2, 'right')
+    
+    # Outputing the results
+    print table.getTable()
+
+Output the following
+
+    <table cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th align="right">President</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td align="right">George Washington</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td align="right">John Adams</td>
+            </tr>
+        </tbody>
+    </table>
+
+__Examples__
+
+See [Examples](https://github.com/dlink/vweb/tree/master/examples)
 
 
-* examples(n).py - Examples of how to use the code.
+__Requires__
+
+vlib - [https://github.com/dlink/vlib](https://github.com/dlink/vlib)
+
+__Installation__
+

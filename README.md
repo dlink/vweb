@@ -142,5 +142,5 @@ Install Mysql DB Connectorm, if you haven't done so already:
 
 Install vlib:
 
-    pip install vlib
+    pip install vweb
 

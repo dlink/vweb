@@ -121,3 +121,26 @@ vlib - [https://github.com/dlink/vlib](https://github.com/dlink/vlib)
 
 __Installation__
 
+Installation
+------------
+
+__Ubuntu__
+
+Update apt-get to the latest libraries:
+
+    apt-get update
+
+Install pip, if you haven't done so already:
+
+     apt-get install python-pip
+     pip install -U pip
+
+Install Mysql DB Connectorm, if you haven't done so already:
+
+    apt-get install python-dev libmysqlclient-dev
+    pip install MySQL-python
+
+Install vlib:
+
+    pip install vweb
+

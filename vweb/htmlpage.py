@@ -26,7 +26,7 @@ class HtmlPage(object):
            call : go()
     '''
     
-    def __init__(self, title='Unnamed'):
+    def __init__(self, title='Unnamed', include_form_tag=1):
         self.title       = title
         self.form        = cgi.FieldStorage()
         self.page_num    = 1
@@ -39,6 +39,7 @@ class HtmlPage(object):
         self.form_name    = 'form1'
         self.form_action  = ''
         self.body_attributes = ''
+        self.include_form_tag = include_form_tag
         self.auto_refresh = 0 # For refreshing every n seconds.
         self.output_format = 'html'
         
@@ -130,14 +131,16 @@ class HtmlPage(object):
                                                  jscript_src_tag,
                                                  jscript_tag)
         o += '<body %s>\n' % self.body_attributes
-        o += '<form action="%s" name="%s" method="POST">\n' % \
-             (self.form_action, self.form_name)
+        if self.include_form_tag:
+            o += '<form action="%s" name="%s" method="POST">\n' % \
+                (self.form_action, self.form_name)
         return o
     
     def getHtmlFooter(self):
         o = ''
         o += '\n'
-        o += '</form>\n'
+        if self.include_form_tag:
+            o += '</form>\n'
         o += '</body>\n'
         o += '</html>\n'
         return o

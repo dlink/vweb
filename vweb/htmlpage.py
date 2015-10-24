@@ -42,7 +42,8 @@ class HtmlPage(object):
         self.include_form_tag = include_form_tag
         self.auto_refresh = 0 # For refreshing every n seconds.
         self.output_format = 'html'
-        
+        self.cookie        = None
+
     def process(self):
         '''CGI Process step.'''
         
@@ -71,12 +72,13 @@ class HtmlPage(object):
         return 'Empty Body'
     
     def getHttpHeader(self):
+        cookie_header = self.cookie + '\n' if self.cookie else ''
         if self.output_format == 'csv':
             return 'Content-Type: application/csv\n' + \
                    'Content-Disposition: attachment; filename=%s.csv\n' \
                    % self.__class__.__name__
         else:
-            return 'Content-Type: text/html\n'
+            return '%sContent-Type: text/html\n' % cookie_header
         
     def getHtmlHeader(self):
         dtd_tag     = '<!DOCTYPE html PUBLIC ' \

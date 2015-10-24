@@ -1,15 +1,16 @@
 Release Notes - vweb
-====================
 
-v1.2.0
-------
-10/24/2015
+v1.2.1 - 10/24/2015
+
+* README updates
+
+
+v1.2.0 - 10/24/2015
 
 * HTTP Headers: Cookie Support
 
-v1.1.0
-------
-05/26/2015
+
+v1.1.0 - 05/26/2015
 
 * Forms: includ_form_tag optional
 
@@ -17,8 +18,6 @@ v1.1.0
 
 ...
 
-v0.1.0
-------
-03/29/2013
+v0.1.0 - 03/29/2013
 
 * Library started 

@@ -203,6 +203,7 @@ class HtmlPage(object):
         return script('setInterval(%s,''500)') % reset_js + \
                input(name='csv', type='hidden', value='0') + \
                input(name='csv_button', value='Download CSV', type='button',
+                     class_='btn btn-primary btn-xs',
                      onClick='document.form1.csv.value=1; submit();')
 
     def go(self):

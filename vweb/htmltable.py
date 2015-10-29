@@ -38,6 +38,7 @@ class HtmlTable (object):
         self.footer_rows = {}
         
         self.row_id      = {}
+        self.row_class   = {}
         self.row_bgcolor = {}
         self.row_valign  = {}
 
@@ -78,6 +79,10 @@ class HtmlTable (object):
         r = row-1
         self.row_id[r] = id
         
+    def setRowClass (self, row, class_):
+        r = row-1
+        self.row_class[r] = class_
+
     def setRowBGColor (self, row, color):
         r = row-1
         self.row_bgcolor[r] = color
@@ -182,6 +187,8 @@ class HtmlTable (object):
 
             # TR Tag:
             elements = ''
+            if self.row_class.has_key(row):
+                elements += ' class="%s"' % self.row_class[row]
             if self.row_bgcolor.has_key(row):
                 elements += ' bgcolor="%s"' % self.row_bgcolor[row]
             if self.row_valign.has_key(row):

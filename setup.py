@@ -7,7 +7,7 @@ with open('requirements.txt') as f:
     requirements = map(string.strip, open('requirements.txt').readlines())
 
 setup(name='vweb',
-      version='1.2.1',
+      version='1.2.2',
       description='Simple Python Website Frame work',
       long_description=readme,
       url='https://github.com/dlink/vweb',

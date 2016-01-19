@@ -1,10 +1,10 @@
 Release Notes - vweb
 
-v1.2.2 - TBD
-
+v1.2.2 - 01/19/2016
 
 * HtmlTable: added setRowClass(
 * HtmlPage: added boostrap btn classes to getCsvButton()
+
 
 v1.2.1 - 10/24/2015
 

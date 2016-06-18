@@ -91,7 +91,8 @@ class HtmlPage(object):
         #              'http-equiv="Content-Type" />\n'
         meta_tag    = '<meta content="text/html; charset=UTF-8" '\
                       'http-equiv="Content-Type" />\n'
-        
+        meta_tag    += '<meta name="viewport" content="width=device-width, ' \
+                       'initial-scale=1.0">'
         # Auto Refresh:
         if self.auto_refresh:
             meta_tag += '<meta http-equiv="Refresh" content="%s"/>\n' \
@@ -125,7 +126,7 @@ class HtmlPage(object):
             
         o = ''
         o += dtd_tag
-        o += '<html>\n'
+        o += '<html lang="en">\n'
         o += '<head>\n%s%s%s%s%s%s</head>\n\n' % (#dtd_tag,
                                                  title_tag,
                                                  meta_tag, style_files_tag,

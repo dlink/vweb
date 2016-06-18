@@ -1,5 +1,10 @@
 Release Notes - vweb
 
+v1.2.4 - 06/18/2016
+
+* HtmlPage: Added Responsive Design viewport meta tag
+* HtmlPage: Added HTML lang="en"
+
 v1.2.3 - 01/10/2016
 
 * Problem with README on pypi

@@ -29,10 +29,11 @@ HTSPACE = '&nbsp;'
             
 def htmlTag(tag, s, attrs):
     '''Generic html tag method.
-       Trailing underscores removed from attribute names, to allow for use
-          of keywords, ie. class_
+       Trailing underscores removed from attribute names, to allow for
+       use of python keywords, ie. class_, for_
 
-       Newlines can be turned on or off with newline=True|False, default=True
+       Newlines can be turned on or off with newline=True|False,
+       default=True
     '''
     nl = '\n'
     if attrs:
@@ -91,6 +92,7 @@ def head     (s, **attrs): return htmlTag ('head'    , s, attrs)
 def header   (s, **attrs): return htmlTag ('header'  , s, attrs)
 def html     (s, **attrs): return htmlTag ('html'    , s, attrs)
 def i        (s, **attrs): return htmlTag ('i   '    , s, attrs)
+def label    (s, **attrs): return htmlTag ('label'   , s, attrs)
 def li       (s, **attrs): return htmlTag ('li'      , s, attrs)
 def nobr     (s, **attrs): return htmlTag ('nobr'    , s, attrs)
 def option   (s, **attrs): return htmlTag ('option'  , s, attrs)
@@ -99,6 +101,7 @@ def pre      (s, **attrs): return htmlTag ('pre'     , s, attrs)
 def script   (s, **attrs): return htmlTag ('script'  , s, attrs)
 def section  (s, **attrs): return htmlTag ('section' , s, attrs)
 def select   (s, **attrs): return htmlTag ('select'  , s, attrs)
+def small    (s, **attrs): return htmlTag ('small'   , s, attrs)
 def span     (s, **attrs): return htmlTag ('span'    , s, attrs)
 def strong   (s, **attrs): return htmlTag ('strong'  , s, attrs)
 def style    (s, **attrs): return htmlTag ('style'   , s, attrs)

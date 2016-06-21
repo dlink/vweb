@@ -19,8 +19,7 @@ class HtmlPage(object):
            override: process() 
                      getHtmlContent()
                      style_sheets
-                     javascript
-                     javascript_src
+                     javascript_src  # list of urls
                      debug_cgi
            set  : debug_msg if desired.
            call : go()
@@ -34,7 +33,6 @@ class HtmlPage(object):
         self.style        = ''
         self.style_sheets = []
         self.javascript_src = []
-        self.javascript   = ''
         self.debug_cgi    = DEBUG_CGI
         self.form_name    = 'form1'
         self.form_action  = ''
@@ -86,9 +84,6 @@ class HtmlPage(object):
                       '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\n'
         
         title_tag   = '<title>%s</title>\n' % self.title
-        
-        #meta_tag    = '<meta content="text/html; charset=iso-8859-1" ' \
-        #              'http-equiv="Content-Type" />\n'
         meta_tag    = '<meta content="text/html; charset=UTF-8" '\
                       'http-equiv="Content-Type" />\n'
         meta_tag    += '<meta name="viewport" content="width=device-width, ' \
@@ -106,6 +101,25 @@ class HtmlPage(object):
                 style_files_tag += '<link href="%s" rel="stylesheet" ' \
                     'type="text/css" />\n' % style_sheet
         
+        style_tag = ''
+        if self.style:
+            style_tag = '<style>\n%s</style>\n' % self.style
+            
+        o = ''
+        o += dtd_tag
+        o += '<html lang="en">\n'
+        o += '<head>\n%s%s%s%s</head>\n\n' % (title_tag,
+                                              meta_tag,
+                                              style_files_tag,
+                                              style_tag)
+        o += '<body %s>\n' % self.body_attributes
+        if self.include_form_tag:
+            o += '<form action="%s" name="%s" method="POST">\n' % \
+                (self.form_action, self.form_name)
+        return o
+    
+    def getHtmlFooter(self):
+
         jscript_src_tag = ''
         if self.javascript_src:
             if isinstance(self.javascript_src, str):
@@ -114,36 +128,13 @@ class HtmlPage(object):
                 jscript_src_tag += '<script type="text/javascript" ' \
                     'language="javascript" src="%s"></script>\n' % s
 
-        jscript_tag = ''
-        if self.javascript:
-            #jscript_tag='<script language="JavaScript">\n%s\n</script>\n' \
-            #             % self.javascript
-            jscript_tag='<script type="text/javascript" charset="utf-8">\n' \
-                         '%s\n</script>\n' % self.javascript
-        style_tag = ''
-        if self.style:
-            style_tag = '<style>\n%s</style>\n' % self.style
-            
-        o = ''
-        o += dtd_tag
-        o += '<html lang="en">\n'
-        o += '<head>\n%s%s%s%s%s%s</head>\n\n' % (#dtd_tag,
-                                                 title_tag,
-                                                 meta_tag, style_files_tag,
-                                                 style_tag,
-                                                 jscript_src_tag,
-                                                 jscript_tag)
-        o += '<body %s>\n' % self.body_attributes
-        if self.include_form_tag:
-            o += '<form action="%s" name="%s" method="POST">\n' % \
-                (self.form_action, self.form_name)
-        return o
-    
-    def getHtmlFooter(self):
         o = ''
         o += '\n'
         if self.include_form_tag:
             o += '</form>\n'
+
+        o += jscript_src_tag
+
         o += '</body>\n'
         o += '</html>\n'
         return o

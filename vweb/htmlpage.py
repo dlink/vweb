@@ -25,7 +25,7 @@ class HtmlPage(object):
            call : go()
     '''
     
-    def __init__(self, title='Unnamed', include_form_tag=1):
+    def __init__(self, title='Unnamed', include_form_tag=1, favicon_path=None):
         self.title       = title
         self.form        = cgi.FieldStorage()
         self.page_num    = 1
@@ -41,6 +41,7 @@ class HtmlPage(object):
         self.auto_refresh = 0 # For refreshing every n seconds.
         self.output_format = 'html'
         self.cookie        = None
+        self.favicon_path  = favicon_path
 
     def process(self):
         '''CGI Process step.'''
@@ -105,13 +106,19 @@ class HtmlPage(object):
         if self.style:
             style_tag = '<style>\n%s</style>\n' % self.style
             
+        fav_icon_tag = ''
+        if self.favicon_path:
+            fav_icon_tag = '<link rel="shortcut icon" type="image/x-icon" ' \
+                'href="%s">\n' % self.favicon_path
+
         o = ''
         o += dtd_tag
         o += '<html lang="en">\n'
-        o += '<head>\n%s%s%s%s</head>\n\n' % (title_tag,
+        o += '<head>\n%s%s%s%s%s</head>\n\n' % (title_tag,
                                               meta_tag,
                                               style_files_tag,
-                                              style_tag)
+                                              style_tag,
+                                              fav_icon_tag)
         o += '<body %s>\n' % self.body_attributes
         if self.include_form_tag:
             o += '<form action="%s" name="%s" method="POST">\n' % \

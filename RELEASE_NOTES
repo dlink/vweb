@@ -1,5 +1,19 @@
 Release Notes - vweb
 
+v1.3.1 - 07/01/2016
+
+* HtmlPage: Added favicon_path
+
+v1.3.0 - 06/20/2016
+
+* HtmlPage: Moved Javascript src script tags to bottom of doc
+* Html: Added label, and small tags
+
+v1.2.4 - 06/18/2016
+
+* HtmlPage: Added Responsive Design viewport meta tag
+* HtmlPage: Added HTML lang="en"
+
 v1.2.3 - 01/10/2016
 
 * Problem with README on pypi

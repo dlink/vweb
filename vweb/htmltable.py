@@ -4,7 +4,7 @@
 START_INDENT = 0
 INDENTATION_INC = 2
 
-DEBUG_UNICODE_ERROR = 1
+DEBUG_UNICODE_ERROR = 0
 
 class HtmlTableError (Exception): pass
 

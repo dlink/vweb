@@ -193,7 +193,7 @@ class HtmlPage(object):
         return output
 
 
-    def getCsvButton(self):
+    def getCsvButton(self, additional_classes=''):
         '''Return a 'Download CSV' button that can be used on the page
            Uses a hidden field called 'csv'
            Uses javascript to reset the value of that field.
@@ -203,7 +203,7 @@ class HtmlPage(object):
         return script('setInterval(%s,''500)') % reset_js + \
                input(name='csv', type='hidden', value='0') + \
                input(name='csv_button', value='Download CSV', type='button',
-                     class_='btn btn-info btn-xs',
+                     class_='btn btn-info btn-xs' + ' ' + additional_classes,
                      onClick='document.form1.csv.value=1; submit();')
 
     def go(self):

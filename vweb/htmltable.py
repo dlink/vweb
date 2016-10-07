@@ -219,8 +219,9 @@ class HtmlTable (object):
                 key = '%s:%s' % (row, col)
 
                 elements = ''
+                classes = []
                 if self.cell_class.has_key(key):
-                    elements += ' class="%s"' % self.cell_class[key]
+                    classes.append(self.cell_class[key])
                 if self.cell_colspan.has_key(key):
                     elements += ' colspan="%s"' % self.cell_colspan[key]
                     running_colspan = self.cell_colspan[key]-1
@@ -232,7 +233,7 @@ class HtmlTable (object):
                 if self.row_id.has_key(row):
                     elements += ' id="%s"' % self.row_id[row]
                 if self.col_class.has_key(col):
-                    elements += ' class="%s"' % self.col_class[col]
+                    classes.append(self.col_class[col])
                 if self.col_align.has_key(col) and \
                         not self.cell_align.has_key(key):
                     elements += ' align="%s"' % self.col_align[col]
@@ -240,6 +241,8 @@ class HtmlTable (object):
                     elements += ' valign="%s"' % self.col_valign[col]
                 if self.col_width.has_key(col):
                     elements += ' width="%s"' % self.col_width[col]
+                if classes:
+                    elements += 'class="%s"' % ' '.join(classes)
 
                 ## td/th 
                 if row in self.header_rows or row in self.footer_rows: 

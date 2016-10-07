@@ -49,6 +49,7 @@ class HtmlTable (object):
         self.col_end_tag   = {}
         self.col_width     = {}
         
+        self.cell_class    = {}
         self.cell_colspan  = {}
         self.cell_rowspan  = {}
         self.cell_align    = {}
@@ -75,6 +76,8 @@ class HtmlTable (object):
             col += 1
             self.colnum = max(col, self.colnum)
 
+    # Row setters
+
     def setRowId (self, row, id):
         r = row-1
         self.row_id[r] = id
@@ -90,6 +93,8 @@ class HtmlTable (object):
     def setRowVAlign (self, row, valign):
         r = row-1
         self.row_valign[r] = valign
+
+    # Col Setters
 
     def setColClass  (self, col, class_):
         c = col-1
@@ -112,6 +117,14 @@ class HtmlTable (object):
         c = col-1
         self.col_width[c] = width
     
+    # Cell Setters
+
+    def setCellClass(self, row, col, class_):
+        r = row-1
+        c = col-1
+        key = '%i:%i' % (r,c)
+        self.cell_class[key] = class_
+
     def setCellColSpan(self, row, col, colspan):
         r = row-1
         c = col-1
@@ -206,6 +219,8 @@ class HtmlTable (object):
                 key = '%s:%s' % (row, col)
 
                 elements = ''
+                if self.cell_class.has_key(key):
+                    elements += ' class="%s"' % self.cell_class[key]
                 if self.cell_colspan.has_key(key):
                     elements += ' colspan="%s"' % self.cell_colspan[key]
                     running_colspan = self.cell_colspan[key]-1

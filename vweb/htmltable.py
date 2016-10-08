@@ -242,7 +242,7 @@ class HtmlTable (object):
                 if self.col_width.has_key(col):
                     elements += ' width="%s"' % self.col_width[col]
                 if classes:
-                    elements += 'class="%s"' % ' '.join(classes)
+                    elements += ' class="%s"' % ' '.join(classes)
 
                 ## td/th 
                 if row in self.header_rows or row in self.footer_rows: 

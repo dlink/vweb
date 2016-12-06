@@ -19,6 +19,7 @@ class HtmlPage(object):
            override: process() 
                      getHtmlContent()
                      style_sheets
+                     javascript
                      javascript_src  # list of urls
                      debug_cgi
            set  : debug_msg if desired.
@@ -32,6 +33,7 @@ class HtmlPage(object):
         self.debug_msg   = ''
         self.style        = ''
         self.style_sheets = []
+        self.javascript   = ''
         self.javascript_src = []
         self.debug_cgi    = DEBUG_CGI
         self.form_name    = 'form1'
@@ -42,6 +44,7 @@ class HtmlPage(object):
         self.output_format = 'html'
         self.cookie        = None
         self.favicon_path  = favicon_path
+        self.meta_data     = {}
 
     def process(self):
         '''CGI Process step.'''
@@ -89,6 +92,9 @@ class HtmlPage(object):
                       'http-equiv="Content-Type" />\n'
         meta_tag    += '<meta name="viewport" content="width=device-width, ' \
                        'initial-scale=1.0">'
+        for k, v in self.meta_data.items():
+            meta_tag += '<meta name="%s" content="%s">' % (k, v)
+
         # Auto Refresh:
         if self.auto_refresh:
             meta_tag += '<meta http-equiv="Refresh" content="%s"/>\n' \
@@ -127,6 +133,11 @@ class HtmlPage(object):
     
     def getHtmlFooter(self):
 
+        jscript_tag = ''
+        if self.javascript:
+            jscript_tag='<script type="text/javascript" charset="utf-8">\n' \
+                '%s\n</script>\n' % self.javascript
+
         jscript_src_tag = ''
         if self.javascript_src:
             if isinstance(self.javascript_src, str):
@@ -141,6 +152,7 @@ class HtmlPage(object):
             o += '</form>\n'
 
         o += jscript_src_tag
+        o += jscript_tag
 
         o += '</body>\n'
         o += '</html>\n'

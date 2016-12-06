@@ -44,7 +44,8 @@ class HtmlPage(object):
         self.output_format = 'html'
         self.cookie        = None
         self.favicon_path  = favicon_path
-        self.meta_data     = {}
+        self.metadata      = {}
+        self.og_metadata   = {}
 
     def process(self):
         '''CGI Process step.'''
@@ -92,8 +93,10 @@ class HtmlPage(object):
                       'http-equiv="Content-Type" />\n'
         meta_tag    += '<meta name="viewport" content="width=device-width, ' \
                        'initial-scale=1.0">'
-        for k, v in self.meta_data.items():
-            meta_tag += '<meta name="%s" content="%s">' % (k, v)
+        for k, v in self.metadata.items():
+            meta_tag += '<meta name="%s" content="%s" />\n' % (k, v)
+        for k, v in self.og_metadata.items():
+            meta_tag += '<meta property="%s" content="%s"/>\n' % (k, v)
 
         # Auto Refresh:
         if self.auto_refresh:

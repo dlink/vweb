@@ -4,7 +4,7 @@
 START_INDENT = 0
 INDENTATION_INC = 2
 
-DEBUG_UNICODE_ERROR = 1
+DEBUG_UNICODE_ERROR = 0
 
 class HtmlTableError (Exception): pass
 
@@ -49,6 +49,7 @@ class HtmlTable (object):
         self.col_end_tag   = {}
         self.col_width     = {}
         
+        self.cell_class    = {}
         self.cell_colspan  = {}
         self.cell_rowspan  = {}
         self.cell_align    = {}
@@ -75,6 +76,8 @@ class HtmlTable (object):
             col += 1
             self.colnum = max(col, self.colnum)
 
+    # Row setters
+
     def setRowId (self, row, id):
         r = row-1
         self.row_id[r] = id
@@ -90,6 +93,8 @@ class HtmlTable (object):
     def setRowVAlign (self, row, valign):
         r = row-1
         self.row_valign[r] = valign
+
+    # Col Setters
 
     def setColClass  (self, col, class_):
         c = col-1
@@ -112,6 +117,14 @@ class HtmlTable (object):
         c = col-1
         self.col_width[c] = width
     
+    # Cell Setters
+
+    def setCellClass(self, row, col, class_):
+        r = row-1
+        c = col-1
+        key = '%i:%i' % (r,c)
+        self.cell_class[key] = class_
+
     def setCellColSpan(self, row, col, colspan):
         r = row-1
         c = col-1
@@ -206,6 +219,9 @@ class HtmlTable (object):
                 key = '%s:%s' % (row, col)
 
                 elements = ''
+                classes = []
+                if self.cell_class.has_key(key):
+                    classes.append(self.cell_class[key])
                 if self.cell_colspan.has_key(key):
                     elements += ' colspan="%s"' % self.cell_colspan[key]
                     running_colspan = self.cell_colspan[key]-1
@@ -217,7 +233,7 @@ class HtmlTable (object):
                 if self.row_id.has_key(row):
                     elements += ' id="%s"' % self.row_id[row]
                 if self.col_class.has_key(col):
-                    elements += ' class="%s"' % self.col_class[col]
+                    classes.append(self.col_class[col])
                 if self.col_align.has_key(col) and \
                         not self.cell_align.has_key(key):
                     elements += ' align="%s"' % self.col_align[col]
@@ -225,6 +241,8 @@ class HtmlTable (object):
                     elements += ' valign="%s"' % self.col_valign[col]
                 if self.col_width.has_key(col):
                     elements += ' width="%s"' % self.col_width[col]
+                if classes:
+                    elements += ' class="%s"' % ' '.join(classes)
 
                 ## td/th 
                 if row in self.header_rows or row in self.footer_rows: 

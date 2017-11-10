@@ -79,7 +79,7 @@ class HtmlPage(object):
         if self.output_format == 'csv':
             return 'Content-Type: application/csv\n' + \
                    'Content-Disposition: attachment; filename=%s.csv\n' \
-                   % self.__class__.__name__
+                   % self.title.lower()
         else:
             return '%sContent-Type: text/html\n' % cookie_header
         

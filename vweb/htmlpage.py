@@ -52,7 +52,8 @@ class HtmlPage(object):
         
         if self.debug_cgi:
             self.debug_msg += '<b>cgi form values:</b> <br/>'
-            for p in self.form:
+            keys = sorted(self.form)
+            for p in keys:
                 self.debug_msg += "%s: %s<br/>" % (p, self.form[p].value)
         if 'csv' in self.form and self.form['csv'].value == "1":
             self.output_format = 'csv'

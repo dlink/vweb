@@ -1,0 +1,13 @@
+LICENSE
+README.md
+pyproject.toml
+setup.cfg
+src/vweb/__init__.py
+src/vweb/html.py
+src/vweb/htmlify.py
+src/vweb/htmlpage.py
+src/vweb/htmltable.py
+src/vweb.egg-info/PKG-INFO
+src/vweb.egg-info/SOURCES.txt
+src/vweb.egg-info/dependency_links.txt
+src/vweb.egg-info/top_level.txt

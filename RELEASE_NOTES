@@ -1,5 +1,10 @@
 Release Notes - vweb
 
+v2.0.0 - 06/15/2021
+
+* Ported to Python 3
+* Changes for new PyPi package building
+
 v1.3.1 - 07/01/2016
 
 * HtmlPage: Added favicon_path

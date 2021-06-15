@@ -94,9 +94,9 @@ class HtmlPage(object):
                       'http-equiv="Content-Type" />\n'
         meta_tag    += '<meta name="viewport" content="width=device-width, ' \
                        'initial-scale=1.0">'
-        for k, v in self.metadata.items():
+        for k, v in list(self.metadata.items()):
             meta_tag += '<meta name="%s" content="%s" />\n' % (k, v)
-        for k, v in self.og_metadata.items():
+        for k, v in list(self.og_metadata.items()):
             meta_tag += '<meta property="%s" content="%s"/>\n' % (k, v)
 
         # Auto Refresh:
@@ -213,21 +213,21 @@ class HtmlPage(object):
            Uses a hidden field called 'csv'
            Uses javascript to reset the value of that field.
         '''
-        from html import input, script
+        from .html import input, script
         reset_js = 'function(){document.form1.csv.value=0}'
         return script('setInterval(%s,''500)') % reset_js + \
-               input(name='csv', type='hidden', value='0') + \
-               input(name='csv_button', value='Download CSV', type='button',
+               eval(input(name='csv', type='hidden', value='0')) + \
+               eval(input(name='csv_button', value='Download CSV', type='button',
                      class_='btn btn-info btn-xs' + ' ' + additional_classes,
-                     onClick='document.form1.csv.value=1; submit();')
+                     onClick='document.form1.csv.value=1; submit();'))
 
     def go(self):
         self.process()
-        print self.getHttpHeader()
+        print(self.getHttpHeader())
         if self.output_format == 'csv':
-            print self.getCsv()
+            print(self.getCsv())
         else:
-            print self.getHtml()
+            print(self.getHtml())
 
 if __name__ == '__main__':
     page = HtmlPage('Untitled')

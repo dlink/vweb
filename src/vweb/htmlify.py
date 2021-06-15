@@ -1,5 +1,5 @@
-from html import *
-from htmltable import HtmlTable
+from .html import *
+from .htmltable import HtmlTable
 
 def htmlify(data, type='table'):
     if isinstance(data, list):
@@ -17,7 +17,7 @@ def htmlify(data, type='table'):
         if type == 'table':
             return dict2table(data)
         return dict2dl(data)
-    if isinstance(data, (str, unicode)) and '\033[' in data:
+    if isinstance(data, str) and '\033[' in data:
         from utils import system_call
         return system_call("echo '%s' | aha" % data, 1)
 

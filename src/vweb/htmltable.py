@@ -146,20 +146,20 @@ class HtmlTable (object):
     def validateTable(self):
         # validate header rows are contiguous
         if self.header_rows:
-            for row in range(0, self.header_rows.keys()[-1]):
-                if not self.header_rows.has_key(row):
+            for row in range(0, list(self.header_rows.keys())[-1]):
+                if row not in self.header_rows:
                     raise HtmlTableError(
                         'Html Table Header tags (TH) must be contiguous, and '
                         'begin at Row 1.  Header Rows: %s' 
-                        % [x+1 for x in self.header_rows.keys()])
+                        % [x+1 for x in list(self.header_rows.keys())])
         # validate footer rows are contiguous and at the end
         if self.footer_rows:
-            for row in range(self.footer_rows.keys()[0], self.rownum):
-                if not self.footer_rows.has_key(row):
+            for row in range(list(self.footer_rows.keys())[0], self.rownum):
+                if row not in self.footer_rows:
                     raise HtmlTableError(
                         'Html Table Footer tags must be continguous, and'
                         'at the end of table.  Footer rows: %s'
-                        % [x+1 for x in self.footer_rows.keys()])
+                        % [x+1 for x in list(self.footer_rows.keys())])
 
     def getTable(self):
         self.validateTable()
@@ -177,13 +177,13 @@ class HtmlTable (object):
             attrs.append('width="%s"' % self.width)
         if self.border:
             attrs.append('border="%s"' % self.border)
-        for k, v in self.attrs.items():
+        for k, v in list(self.attrs.items()):
             attrs.append('%s="%s"' % (k, v))
         
         o = '%s<table %s>\n' % (' '*self.start_indent, ' '.join(attrs))
 
         running_rowspans = []
-        for row in xrange(self.rownum):
+        for row in range(self.rownum):
 
             # decrement rowspans
             running_rowspans = [rs - 1 for rs in running_rowspans if rs > 0]
@@ -194,23 +194,23 @@ class HtmlTable (object):
                     o += '%s<thead>\n' % self.indent(1)
                 else:
                     o += '%s<tbody>\n' % self.indent(1)
-            elif self.row_bgcolor.has_key(row):
+            elif row in self.row_bgcolor:
                 row_color = ' style="background-color: %s;"' % \
                             self.row_bgcolor[row]
 
             # TR Tag:
             elements = ''
-            if self.row_class.has_key(row):
+            if row in self.row_class:
                 elements += ' class="%s"' % self.row_class[row]
-            if self.row_bgcolor.has_key(row):
+            if row in self.row_bgcolor:
                 elements += ' bgcolor="%s"' % self.row_bgcolor[row]
-            if self.row_valign.has_key(row):
+            if row in self.row_valign:
                 elements += ' valign="%s"' % self.row_valign[row]
             o += '%s<tr%s>\n' % (self.indent(2), elements)
             
             # TD Tags:
             running_colspan = 0
-            for col in xrange(self.colnum - len(running_rowspans)):
+            for col in range(self.colnum - len(running_rowspans)):
 
                 if running_colspan:
                     running_colspan -= 1
@@ -220,26 +220,26 @@ class HtmlTable (object):
 
                 elements = ''
                 classes = []
-                if self.cell_class.has_key(key):
+                if key in self.cell_class:
                     classes.append(self.cell_class[key])
-                if self.cell_colspan.has_key(key):
+                if key in self.cell_colspan:
                     elements += ' colspan="%s"' % self.cell_colspan[key]
                     running_colspan = self.cell_colspan[key]-1
-                if self.cell_rowspan.has_key(key):
+                if key in self.cell_rowspan:
                     elements += ' rowspan="%s"' % self.cell_rowspan[key]
                     running_rowspans.append(self.cell_rowspan[key] - 1)
-                if self.cell_align.has_key(key):
+                if key in self.cell_align:
                     elements += ' align="%s"' % self.cell_align[key]
-                if self.row_id.has_key(row):
+                if row in self.row_id:
                     elements += ' id="%s"' % self.row_id[row]
-                if self.col_class.has_key(col):
+                if col in self.col_class:
                     classes.append(self.col_class[col])
-                if self.col_align.has_key(col) and \
-                        not self.cell_align.has_key(key):
+                if col in self.col_align and \
+                        key not in self.cell_align:
                     elements += ' align="%s"' % self.col_align[col]
-                if self.col_valign.has_key(col):
+                if col in self.col_valign:
                     elements += ' valign="%s"' % self.col_valign[col]
-                if self.col_width.has_key(col):
+                if col in self.col_width:
                     elements += ' width="%s"' % self.col_width[col]
                 if classes:
                     elements += ' class="%s"' % ' '.join(classes)
@@ -251,16 +251,16 @@ class HtmlTable (object):
                     coltag = 'td'
                 o += '%s<%s%s>' % (self.indent(3), coltag, elements)
 
-                if self.col_start_tag.has_key(col):
+                if col in self.col_start_tag:
                     o += self.col_start_tag[col]
 
                 try:
                     value = self.table.get(key, '')
-                    if isinstance(value, (int, long, list, dict)):
-                        value = unicode(value)
+                    if isinstance(value, (int, list, dict)):
+                        value = str(value)
                     o += value
                     #o += unicode(self.table[key]).encode('utf-8')
-                except Exception, e:
+                except Exception as e:
                     if DEBUG_UNICODE_ERROR:
                         from datetime import datetime
                         open('/var/log/fwk/htmltable_unicode_error',
@@ -272,15 +272,15 @@ class HtmlTable (object):
                         o += "%s: %s" % (e.__class__.__name__, e)
                     #o += self.blank_cell
                     
-                if self.col_end_tag.has_key(col):
+                if col in self.col_end_tag:
                     o += self.col_end_tag[col]
 
                 o += '</%s>\n' % coltag
             o += '%s</tr>\n' % self.indent(2)
 
             # close THEAD tag, start TBODY tag
-            if self.header_rows.has_key(row) and \
-                    not self.header_rows.has_key(row+1):
+            if row in self.header_rows and \
+                    row+1 not in self.header_rows:
                 o += '%s</thead>\n' % self.indent(1)
                 o += '%s<tbody>\n' % self.indent(1)
                 
@@ -316,7 +316,7 @@ def test():
     table.setCellRowSpan(2, 3, 4)
     table.setCellColSpan(6, 1, 2)
     table.setCellColSpan(6, 3, 2)
-    print table.getTable()
+    print(table.getTable())
 
 if __name__ == '__main__':
     test()

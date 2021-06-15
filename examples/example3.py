@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 
 # This page shows how to use HtmlTable, and html methods
 
@@ -22,7 +22,7 @@ class AmericanPanters(HtmlPage):
         return center(h3('American Painters'))
 
     def getBody(self):
-        table = HtmlTable(cellspacing=2, cellpadding=2, border=1)
+        table = HtmlTable(cellspacing=0, cellpadding=4, border=1)
         table.addHeader(['Painter', 'Style', 'Born', 'Until'])
         table.setRowBGColor(table.rownum, 'lightgreen')
         for row in self.getData():

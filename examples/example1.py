@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/usr/bin/python3
 
 # This program outputs:
 

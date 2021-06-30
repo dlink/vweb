@@ -1,15 +1,10 @@
 #!/usr/bin/python
 
-import cgi
-import cgitb
-cgitb.enable()
-#cgitb.enable(display=0, logdir="/tmp")
-
-#import safecgi
+from flask import request
 
 # constants:
 
-DEBUG_CGI = 0
+DEBUG_FORM = 0
 
 class HtmlPage(object):
     '''Super Class that contains common characteristics and behavior
@@ -21,21 +16,24 @@ class HtmlPage(object):
                      style_sheets
                      javascript
                      javascript_src  # list of urls
-                     debug_cgi
+                     debug_form
            set  : debug_msg if desired.
            call : go()
     '''
     
     def __init__(self, title='Unnamed', include_form_tag=1, favicon_path=None):
         self.title       = title
-        self.form        = cgi.FieldStorage()
+        if request.method == 'GET':
+            self.form = request.args
+        else:
+            self.form = request.form
         self.page_num    = 1
         self.debug_msg   = ''
         self.style        = ''
         self.style_sheets = []
         self.javascript   = ''
         self.javascript_src = []
-        self.debug_cgi    = DEBUG_CGI
+        self.debug_form    = DEBUG_FORM
         self.form_name    = 'form1'
         self.form_action  = ''
         self.body_attributes = ''
@@ -48,21 +46,21 @@ class HtmlPage(object):
         self.og_metadata   = {}
 
     def process(self):
-        '''CGI Process step.'''
+        '''Form Process step.'''
         
-        if self.debug_cgi:
-            self.debug_msg += '<b>cgi form values:</b> <br/>'
+        if self.debug_form:
+            self.debug_msg += '<b>form values:</b> <br/>'
             keys = sorted(self.form)
             for p in keys:
-                self.debug_msg += "%s: %s<br/>" % (p, self.form[p].value)
-        if 'csv' in self.form and self.form['csv'].value == "1":
+                self.debug_msg += "%s: %s<br/>" % (p, self.form[p])
+        if 'csv' in self.form and self.form['csv'] == "1":
             self.output_format = 'csv'
             
     def getHtml(self):
         '''Return entire Html Page, NOT including HTTP Header.
         Also calls self.process()
         '''
-        
+        html = ''
         html = self.getHtmlHeader()
         report_body = self.getHtmlContent() # can set debug_msg
 
@@ -223,11 +221,13 @@ class HtmlPage(object):
 
     def go(self):
         self.process()
-        print(self.getHttpHeader())
+        #print(self.getHttpHeader())
         if self.output_format == 'csv':
-            print(self.getCsv())
+            #print(self.getCsv())
+            return self.getCsv()
         else:
-            print(self.getHtml())
+            #print(self.getHtml())
+            return self.getHtml()
 
 if __name__ == '__main__':
     page = HtmlPage('Untitled')

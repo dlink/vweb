@@ -129,7 +129,7 @@ class HtmlPage(object):
                                               fav_icon_tag)
         o += '<body %s>\n' % self.body_attributes
         if self.include_form_tag:
-            o += '<form action="%s" name="%s" method="POST">\n' % \
+            o += '<form action="%s" name="%s" method="POST" enctype="multipart/form-data">\n' % \
                 (self.form_action, self.form_name)
         return o
     

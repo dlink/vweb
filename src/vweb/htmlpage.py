@@ -44,6 +44,7 @@ class HtmlPage(object):
         self.favicon_path  = favicon_path
         self.metadata      = {}
         self.og_metadata   = {}
+        self.ga_tag        = ''
 
     def process(self):
         '''Form Process step.'''
@@ -122,11 +123,12 @@ class HtmlPage(object):
         o = ''
         o += dtd_tag
         o += '<html lang="en">\n'
-        o += '<head>\n%s%s%s%s%s</head>\n\n' % (title_tag,
+        o += '<head>\n%s%s%s%s%s%s</head>\n\n' % (title_tag,
                                               meta_tag,
                                               style_files_tag,
                                               style_tag,
-                                              fav_icon_tag)
+                                              fav_icon_tag,
+                                              self.ga_tag)
         o += '<body %s>\n' % self.body_attributes
         if self.include_form_tag:
             o += '<form action="%s" name="%s" method="POST" enctype="multipart/form-data">\n' % \

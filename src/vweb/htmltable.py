@@ -41,6 +41,7 @@ class HtmlTable (object):
         self.row_class   = {}
         self.row_bgcolor = {}
         self.row_valign  = {}
+        self.row_data_attr = {}
 
         self.col_class     = {}
         self.col_align     = {}
@@ -93,6 +94,10 @@ class HtmlTable (object):
     def setRowVAlign (self, row, valign):
         r = row-1
         self.row_valign[r] = valign
+
+    def setRowDataAttr(self, row, attr, value):
+        r = row-1
+        self.row_data_attr[r] = [attr, value]
 
     # Col Setters
 
@@ -206,6 +211,9 @@ class HtmlTable (object):
                 elements += ' bgcolor="%s"' % self.row_bgcolor[row]
             if row in self.row_valign:
                 elements += ' valign="%s"' % self.row_valign[row]
+            if row in self.row_data_attr:
+                attr, value = self.row_data_attr[row]
+                elements += f' data-{attr}="{value}"'
             o += '%s<tr%s>\n' % (self.indent(2), elements)
             
             # TD Tags:

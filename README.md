@@ -21,8 +21,7 @@ It has been created over a time to address reoccuring requirements for building 
 ### Archecture
 9/2024 - Most recent deployment of this library looks like this
 
-[[https://github.com/dlink/vweb/blob/master/docs/Application%20Architecture.png|alt=Application Architecture]]
-
+[[https://github.com/dlink/vweb/blob/master/docs/Application%20Architecture.png]]
 
 ##### HtmlPage
 

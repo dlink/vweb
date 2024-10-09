@@ -18,6 +18,12 @@ It has been created over a time to address reoccuring requirements for building 
 
 ### Details
 
+### Archecture
+9/2024 - Most recent deployment of this library looks like this
+
+[[https://github.com/dlink/vweb/blob/master/docs/Application%20Architecture.png|alt=Application Architecture]]
+
+
 ##### HtmlPage
 
 HtmlPage is a Web Page that your code subclasses.  It consists primarily of

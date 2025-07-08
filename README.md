@@ -46,6 +46,8 @@ Here is Hello World:
     if __name__ == '__main__':
         HelloWorld().go()
 
+![](https://github.com/dlink/vweb/blob/master/docs/htmlpage_super_class.png)
+
 See Other [Examples](https://github.com/dlink/vweb/tree/master/examples)
 
 __html__
